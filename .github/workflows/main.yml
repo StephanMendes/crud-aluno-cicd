@@ -48,3 +48,4 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/crud-aluno-cicd:latest
+
