@@ -7,6 +7,7 @@ app.use(express.json());
 let alunos = [];
 let idAtual = 1;
 
+
 app.get('/', (req, res) => {
     res.send('Bem Vindo ao cadastro de alunos!');
 });
