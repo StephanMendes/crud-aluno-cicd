@@ -5,93 +5,92 @@ name: CI/CD Pipeline
 
 on: 
 
-push: 
+  push: 
 
-branches: 
+    branches: 
 
-- main # Altere para 'master' se for sua branch principal 
+      - main # Altere para 'master' se for sua branch principal 
 
-pull_request: 
+  pull_request: 
 
-branches: 
+    branches: 
 
-- main # Altere para 'master' se for sua branch principal 
+      - main # Altere para 'master' se for sua branch principal 
 
 
 
 jobs: 
 
-build-and-test: 
+  build-and-test: 
 
-runs-on: ubuntu-latest # O tipo de ambiente virtual onde o job será executado 
+    runs-on: ubuntu-latest # O tipo de ambiente virtual onde o job será executado 
 
-steps: 
+  steps: 
 
-- name: Checkout code # Etapa para clonar o código do repositório 
+    - name: Checkout code # Etapa para clonar o código do repositório 
 
-uses: actions/checkout@v4 
-
-
-
-- name: Set up Node.js # Configura o ambiente Node.js 
-
-uses: actions/setup-node@v4 
-
-with: 
-
-node-version: '20' # Define a versão do Node.js 
+      uses: actions/checkout@v4 
 
 
 
-- name: Install dependencies # Instala as dependências do projeto 
+    - name: Set up Node.js # Configura o ambiente Node.js 
 
-run: npm install 
+      uses: actions/setup-node@v4 
 
+      with: 
 
-
-- name: Run tests # Executa os testes unitários 
-
-run: npm test 
+        node-version: '20' # Define a versão do Node.js 
 
 
-dockerize: 
+    - name: Install dependencies # Instala as dependências do projeto 
 
-runs-on: ubuntu-latest 
-
-needs: build-and-test # Este job só rodará se o job 'build-and-test' passar com sucesso 
+      run: npm install 
 
 
 
-steps: 
+    - name: Run tests # Executa os testes unitários 
 
-- name: Checkout code 
-
-uses: actions/checkout@v4 
+      run: npm test 
 
 
-- name: Set up Docker Buildx # Necessário para construir imagens Docker 
+  dockerize: 
 
-uses: docker/setup-buildx-action@v3 
+    runs-on: ubuntu-latest 
 
-- name: Log in to Docker Hub # Faz login no Docker Hub usando secrets 
-
-uses: docker/login-action@v3 
-
-with: 
-
-username: ${{ secrets.DOCKER_USERNAME }} 
-
-password: ${{ secrets.DOCKER_TOKEN }} # Ou DOCKER_PASSWORD, dependendo do que você configurou 
+    needs: build-and-test # Este job só rodará se o job 'build-and-test' passar com sucesso 
 
 
-- name: Build and push Docker image # Constrói e publica a imagem Docker 
 
-uses: docker/build-push-action@v5 
+    steps: 
 
-with: 
+    - name: Checkout code 
 
-context: . # Onde o Dockerfile está (diretório atual) 
+      uses: actions/checkout@v4 
 
-push: true # Indica para fazer push da imagem após a construção 
 
-tags: ${{ secrets.DOCKER_USERNAME }}/your-cicd-cicd:latest # Formato: seu_usuario_docker/nome_da_imagem:tag
+    - name: Set up Docker Buildx # Necessário para construir imagens Docker 
+
+      uses: docker/setup-buildx-action@v3 
+
+    - name: Log in to Docker Hub # Faz login no Docker Hub usando secrets 
+
+      uses: docker/login-action@v3 
+
+      with: 
+
+          username: ${{ secrets.DOCKER_USERNAME }} 
+
+          password: ${{ secrets.DOCKER_TOKEN }} # Ou DOCKER_PASSWORD, dependendo do que você configurou 
+
+
+    - name: Build and push Docker image # Constrói e publica a imagem Docker 
+
+      uses: docker/build-push-action@v5 
+
+      with: 
+
+        context: . # Onde o Dockerfile está (diretório atual) 
+
+        push: true # Indica para fazer push da imagem após a construção 
+
+        tags: stephanmendes/crud-aluno-cicd:latest # Formato: seu_usuario_docker/nome_da_imagem:tag
