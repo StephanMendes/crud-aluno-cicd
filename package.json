@@ -1,0 +1,27 @@
+{
+  "name": "crud-aluno-cicd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "start": "node src/app.js",
+  "test": "jest",
+  "dev": "nodemon src/app.js"
+},
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephanMendes/crud-aluno-cicd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StephanMendes/crud-aluno-cicd/issues"
+  },
+  "homepage": "https://github.com/StephanMendes/crud-aluno-cicd#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "jest": "^30.0.0"
+  }
+}
