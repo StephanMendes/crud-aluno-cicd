@@ -8,6 +8,7 @@
   "dev": "nodemon src/app.js"
 },
 
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StephanMendes/crud-aluno-cicd.git"
